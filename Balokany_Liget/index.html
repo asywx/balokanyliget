@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Balokány – Főoldal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+    }
+
+    /* KÖZÉPRE IGAZÍTOTT FELSŐ TÁLCA */
+    nav.topnav {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.55);
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      backdrop-filter: blur(6px);
+    }
+
+    nav .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      opacity: 0.7;
+    }
+
+    /* HŐS SZEKCIÓ (HÁTTÉRKÉP) */
+    .hero {
+      height: 100vh;
+      background: url("./kepek/balokany.png") no-repeat center center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 140px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .hero-content {
+      position: relative;
+      color: white;
+      text-align: center;
+      max-width: 700px;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="topnav">
+  <div class="logo">BALOKÁNY</div>
+  <ul>
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="hirlevel.html">HÍRLEVÉL</a></li>
+    <li><a href="hirlevel-admin.html">HÍRLEVÉL ADMIN</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Balokány</h1>
+    <p>Pécs egyik legszebb városi zöldterülete.</p>
+  </div>
+</section>
+
+</body>
+</html>

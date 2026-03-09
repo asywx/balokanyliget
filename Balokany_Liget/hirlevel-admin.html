@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Hírlevél Admin – Balokány</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 8rem;
+    }
+
+    nav.topnav {
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      padding:1rem 2rem; background:#2f855a; color:white; position:fixed; width:100%; top:0; left:0;
+    }
+
+    nav ul { list-style:none; display:flex; gap:2rem; margin:0; padding:0; }
+    nav a { color:white; text-decoration:none; }
+
+    .box {
+      width: 100%; max-width: 500px; background: white; padding: 2rem;
+      border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+
+    input, textarea {
+      width:100%; padding:.6rem; margin-bottom:1rem;
+      border-radius:6px; border:1px solid #ccc;
+    }
+
+    textarea { height:150px; }
+
+    button {
+      width:100%; padding:.75rem; border:none; border-radius:999px;
+      background:#2f855a; color:white; font-size:1rem; font-weight:600;
+    }
+
+    .message { margin-top:1rem; text-align:center; }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="logo">BALOKÁNY</div>
+  <ul>
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="hirlevel.html">HÍRLEVÉL</a></li>
+    <li><a href="hirlevel-admin.html">HÍRLEVÉL ADMIN</a></li>
+  </ul>
+</nav>
+
+<div class="box">
+  <h1>Hírlevél küldése</h1>
+
+  <input type="text" id="subject" placeholder="Tárgy">
+  <textarea id="message" placeholder="Üzenet"></textarea>
+
+  <button onclick="sendNewsletter()">Küldés</button>
+
+  <div id="admin-msg" class="message"></div>
+</div>
+
+<script>
+  const supabase = supabase.createClient(
+    "https://swvryaeeccexhzlphhhj.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3dnJ5YWVlY2NleGh6bHBoaGhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODY0MzYsImV4cCI6MjA4ODU2MjQzNn0.yZivicvBlXk3FjNt3nc-uEew1bTgePreYn9mpExKNSQ"
+  );
+
+  emailjs.init("Sf5Wbb4Q-p2X0hoeP");
+
+  async function sendNewsletter() {
+    const subject = document.getElementById("subject").value;
+    const message = document.getElementById("message").value;
+    const msg = document.getElementById("admin-msg");
+
+    const { data: subscribers, error } = await supabase
+      .from("subscribers")
+      .select("*");
+
+    if (error) {
+      msg.textContent = "Hiba történt a feliratkozók lekérésekor.";
+      msg.style.color = "red";
+      return;
+    }
+
+    for (const sub of subscribers) {
+      await emailjs.send("service_7gfcvru", "hirlevel", {
+        name: sub.name,
+        subject: subject,
+        message: message,
+        email: sub.email
+      });
+    }
+
+    msg.textContent = "Hírlevél elküldve minden feliratkozónak!";
+    msg.style.color = "#2f855a";
+  }
+</script>
+
+</body>
+</html>
